@@ -4,19 +4,22 @@ const {
 getAllUser,
 getUserById, 
 getUserByName, 
-addUser, 
-getUserByAge, 
+addUser,  
+deleteUser,
+replaceUser,
+updateUser
 } = require("../controllers/userController");
  
 router.get("/", getAllUser);
 router.post("/", addUser);
 router.get("/:idUser", getUserById);
+router.put("/:idUser", replaceUser)
+router.patch("/:idUser", updateUser)
+router.delete("/:idUser", deleteUser)
 router.get("/searchName/:nombre", getUserByName);
-router.get("/searchAge/:age", getUserByAge);
  
 module.exports = router;
  
 // http://localhost:3000/api/user
 // http://localhost:3000/api/user/9
 // http://localhost:3000/api/user/searchName/Diego
-// http://localhost:3000/api/user/searchAge/40

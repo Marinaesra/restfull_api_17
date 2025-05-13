@@ -5,6 +5,8 @@ const userSchema = new Schema({
   name: {
     type: String,
     required: [true, "El nombre es obligatorio"],
+    minlength: [5, "El nombre debe de tener al menos 5 caracteres"],
+    maxxlength: 30
   },
   lastName: {
     type: String,
@@ -14,6 +16,7 @@ const userSchema = new Schema({
     type: String,
     required: [true, "El email es obligatorio"],
     unique: [true, "El correo ya existe"],
+    trim: true
   },
   password: {
     type: String,
@@ -24,6 +27,11 @@ const userSchema = new Schema({
     enum: ["user", "admin"],
     default: "user",
   },
+});
+
+userSchema.pre(/^find/, function(next) {
+  this.select('-password');
+  next();
 });
  
 const userModel = mongoose.model("User", userSchema, "user");

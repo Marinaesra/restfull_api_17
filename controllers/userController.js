@@ -1,26 +1,16 @@
 const users = require("../db/users"); //MOCK
 const userModel = require ('../models/userModel');
  
-const getAllUser = (req, res) => {
-  const user = userModel.find();
-};
- 
-const getUserById = (req, res) => {
-  const idUser  = req.params.idUser;
-  const user = users.find(u => u.id === parseInt(idUser));
-  if(!user) {
-    return res.status(200).send('No hay usuario')
+const getAllUser = async (req, res) => {
+  try {
+    const users = await userModel.find();
+    if(!users){
+      return res.status(200).send("No hay usuario");
+    }
+    res.status(200).send(users)
+  } catch (error) {
+    res.status(500).send({ status: "Failed", error: error.message });
   }
-  res.send(user);
-};
- 
-const getUserByName = (req, res) => {
-  const nombre  = req.params.nombre;
-  const user = users.filter(u => u.nombre.includes(nombre));
-  if(user.length === 0) {
-    return res.send('No hay usuarios');
-  }
-  res.send(user);
 };
  
 const addUser = async (req, res) => {
@@ -32,6 +22,34 @@ const addUser = async (req, res) => {
     res.status(500).send({ status:"Failed", error: error.message })
   }
 };
+
+ const getUserById = async (req, res) => {
+  try {
+    const idUser = req.params.idUser;
+    const user = await userModel.findById(idUser)
+    if(!users){
+      return res.status(200).send("No hay usuario");
+    }
+    res.status(200).send({status:"Sucess", data:user})
+  } catch (error) {
+    res.status(500).send({ status: "Failed", error: error.message });
+  }
+};
+
+
+const getUserByName = async (req, res) => {
+  try {
+    const name = req.params.name;
+    const users = await userModel.find({ name: { $regex: name, $options: 'i' } });
+    if(users.length === 0 ){
+      return res.status(200).send("No hay usuario");
+    }
+    res.status(200).send({status:"Success", data: users})
+  } catch (error) {
+    res.status(500).send({ status:"Failed", error: error.message })
+  }
+};
+ 
  
 const getUserByAge = (req, res) => {
     const age =req.params.age;
@@ -42,12 +60,69 @@ const getUserByAge = (req, res) => {
     res.send(user);
 };
 
+//user.findByIdAndDeleted (iduser)
+
+const deleteUser = async (req, res) => {
+  try {
+    const idUser = req.params.idUser;
+    await userModel.findByIdAndDelete (idUser)
+    res.status(200).send({status:"Sucess", data: "El usuario se elimino correctamente"});
+  } catch (error) {
+    res.status(500).send({ status:"Failed", error: error.message })
+  }
+};
+
+const replaceUser = async (req, res) => {
+  try {
+    const idUser = req.params.idUser;
+    const newUser = req.body;
+    const replaceUser = await userModel.findOneAndReplace(
+      { _id: idUser },
+      newUser,
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+     if (!replaceUser) {
+      return res.status(200).send("No hay usuario");
+    }
+    res.status(200).send({ status: "Success", data: replaceUser });
+  } catch (error) {
+    res.status(500).send({ status: "Failed", error: error.message });
+  }
+};
+ 
+const updateUser = async (req,res) => {
+  try {
+    const idUser = req.params.idUser;
+    const newUser = req.body;
+    const updateUser = await userModel.findByIdAndUpdate(
+      idUser,
+      newUser,
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+     if (!updateUser) {
+      return res.status(200).send("No hay usuario");
+    }
+    res.status(200).send({ status: "Success", data: updateUser });
+  } catch (error) {
+    res.status(500).send({ status: "Failed", error: error.message });
+  }
+}
+ 
+
 module.exports = {
   getAllUser,
   getUserById,
   getUserByName,
   addUser,
-  getUserByAge
+  deleteUser,
+  replaceUser,
+  updateUser
 };
  
  
