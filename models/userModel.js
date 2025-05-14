@@ -27,6 +27,10 @@ const userSchema = new Schema({
     enum: ["user", "admin"],
     default: "user",
   },
+  favourites: {
+    type: [ mongoose.Schema.Types.ObjectId ],
+    ref: "Movie",
+  }
 });
 
 userSchema.pre(/^find/, function(next) {

@@ -7,7 +7,9 @@ getUserByName,
 addUser,  
 deleteUser,
 replaceUser,
-updateUser
+updateUser,
+addFavouriteMovie,
+deleteMovie
 } = require("../controllers/userController");
  
 router.get("/", getAllUser);
@@ -17,6 +19,8 @@ router.put("/:idUser", replaceUser)
 router.patch("/:idUser", updateUser)
 router.delete("/:idUser", deleteUser)
 router.get("/searchName/:nombre", getUserByName);
+router.patch("/:idUser/favourites/:idMovie", addFavouriteMovie);
+router.patch("/:idUser/removefavourite/:idMovie", deleteMovie);
  
 module.exports = router;
  
