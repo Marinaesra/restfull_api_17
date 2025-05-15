@@ -3,6 +3,7 @@ const express = require('express');
 const userRouter = require('./routers/userRouter');
 const connectToDatabase =  require ('./db/connectDb')
 const movieRouter = require('./routers/movieRouter')
+const loginRouter = require('./routers/loginRouter');
 
 require("dotenv").config();
  
@@ -12,6 +13,7 @@ app.use(express.json());
 connectToDatabase();
 app.use('/api/user', userRouter)
 app.use('/api/movies', movieRouter)
+app.use("/api/auth", loginRouter)
 
  
 app.listen(PORT, () => {

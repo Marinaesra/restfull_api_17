@@ -14,7 +14,7 @@ const getAllUser = async (req, res) => {
   }
 };
 
-const addUser = async (req, res) => {
+/* const addUser = async (req, res) => {
   try {
     const newUser = req.body;
     await userModel.create(newUser);
@@ -22,11 +22,12 @@ const addUser = async (req, res) => {
   } catch (error) {
     res.status(500).send({ status: "Failed", error: error.message });
   }
-};
+}; */
 
-const getUserById = async (req, res) => {
+const getMyProfile = async (req, res) => {
   try {
-    const idUser = req.params.idUser;
+    /* const idUser = req.params.idUser; */
+    const idUser = req.payload._id;
     const user = await userModel
       .findById(idUser)
       .populate({ path: "favourites", select: "title description" });
@@ -165,9 +166,9 @@ const deleteMovie = async (req, res) => {
 
 module.exports = {
   getAllUser,
-  getUserById,
+  getMyProfile,
   getUserByName,
-  addUser,
+  // addUser,
   deleteUser,
   replaceUser,
   updateUser,
