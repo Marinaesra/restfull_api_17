@@ -16,9 +16,9 @@ const verifyToken = require("../middlewares/auth")
 router.get("/", getAllUser);
 //router.post("/", addUser);
 router.get("/myProfile",verifyToken, getMyProfile);
-router.put("/:idUser", replaceUser)
-router.patch("/:idUser", updateUser)
-router.delete("/:idUser", deleteUser)
+router.put("/myProfile",verifyToken, replaceUser)
+router.patch("/myProfile",verifyToken, updateUser)
+router.delete("/myProfile",verifyToken, deleteUser)
 router.get("/searchName/:nombre", getUserByName);
 router.patch("/:idUser/favourites/:idMovie", addFavouriteMovie);
 router.patch("/:idUser/removefavourite/:idMovie", deleteMovie);
