@@ -1,6 +1,7 @@
 const users = require("../db/users"); //MOCK
 const userModel = require("../models/userModel");
 const movieModel = require("../models/movieModel");
+const { verifyToken } = require("../middlewares/auth");
 
 const getAllUser = async (req, res) => {
   try {
@@ -119,7 +120,8 @@ const updateUser = async (req, res) => {
 
 const addFavouriteMovie = async (req, res) => {
   try {
-    const { idUser, idMovie } = req.params;
+    const {idMovie} = req.params;
+     const idUser = req.payload._id
     const user = await userModel.findById(idUser);
     if (!user) {
       return res.status(200).send("No hay usuario");
@@ -145,7 +147,8 @@ const addFavouriteMovie = async (req, res) => {
 
 const deleteMovie = async (req, res) => {
   try {
-    const { idUser, idMovie } = req.params;
+    const {idMovie} = req.params;
+     const idUser = req.payload._id
     const user = await userModel.findById(idUser);
     if (!user) {
       return res.status(200).send("No hay usuario");
@@ -174,4 +177,5 @@ module.exports = {
   updateUser,
   addFavouriteMovie,
   deleteMovie,
+  verifyToken
 };

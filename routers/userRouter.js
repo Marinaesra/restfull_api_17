@@ -11,17 +11,18 @@ updateUser,
 addFavouriteMovie,
 deleteMovie
 } = require("../controllers/userController");
-const verifyToken = require("../middlewares/auth")
+const {verifyToken, verifyAdmin} = require("../middlewares/auth")
  
 router.get("/", getAllUser);
 //router.post("/", addUser);
-router.get("/myProfile",verifyToken, getMyProfile);
-router.put("/myProfile",verifyToken, replaceUser)
-router.patch("/myProfile",verifyToken, updateUser)
-router.delete("/myProfile",verifyToken, deleteUser)
+router.get("/myProfile", verifyToken,verifyAdmin, getMyProfile);
+router.put("/:idUser", replaceUser)
+router.patch("/:idUser", updateUser)
+router.delete("/:idUser", deleteUser)
 router.get("/searchName/:nombre", getUserByName);
-router.patch("/:idUser/favourites/:idMovie", addFavouriteMovie);
-router.patch("/:idUser/removefavourite/:idMovie", deleteMovie);
+
+router.patch("/favourites/:idMovie",verifyToken, addFavouriteMovie);
+router.patch("/removefavourite/:idMovie",verifyToken, deleteMovie);
  
 module.exports = router;
  

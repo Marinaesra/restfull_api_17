@@ -17,8 +17,22 @@ const verifyToken = (req, res, next) => {
     }
   }
 };
+
+const verifyAdmin = (req, res, next) => {
+  try {
+    const role = req.payload.role;
+    if(role !== 'admin') {
+      return res.status(401).send('No tienes permisos');
+    }
+    next();
+  } catch (error) {
+    res.status(401).send("Token expired");
+  }
+};
  
-module.exports = verifyToken;
+module.exports = {verifyToken,
+  verifyAdmin
+};
 
  
  
