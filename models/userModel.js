@@ -30,10 +30,17 @@ const userSchema = new Schema({
   favourites: {
     type: [ mongoose.Schema.Types.ObjectId ],
     ref: "Movie",
+  },
+
+  isActive: {
+    type: Boolean,
+    default: true
   }
 });
 
+
 userSchema.pre(/^find/, function(next) {
+  this.find({ isActive: true });
   this.select('-password');
   next();
 });

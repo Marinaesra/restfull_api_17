@@ -148,7 +148,7 @@ const addFavouriteMovie = async (req, res) => {
 const deleteMovie = async (req, res) => {
   try {
     const {idMovie} = req.params;
-     const idUser = req.payload._id
+     const idUser = req.payload._id;
     const user = await userModel.findById(idUser);
     if (!user) {
       return res.status(200).send("No hay usuario");
@@ -167,6 +167,21 @@ const deleteMovie = async (req, res) => {
   }
 };
 
+const deactiveUser = async (req, res) => {
+  try {
+    const idUser = req.payload._id;
+    const disableUser = {isActive: false}
+    const user = await userModel.findByIdAndUpdate(idUser,disableUser, {new: true,});
+    if (!user) {
+    res.status(200).send("No se ha encontrado usuario");
+    }
+     res.status(200).send({ status: "Success", message: "Usuario Borrado" });
+  } catch (error) {
+    res.status(500).send({ status: "Failed", error: error.message });
+  }
+};
+
+
 module.exports = {
   getAllUser,
   getMyProfile,
@@ -177,5 +192,6 @@ module.exports = {
   updateUser,
   addFavouriteMovie,
   deleteMovie,
-  verifyToken
+  verifyToken,
+  deactiveUser
 };
