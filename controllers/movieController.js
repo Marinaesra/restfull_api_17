@@ -60,9 +60,40 @@ const getAllMovies = async (req, res) => {
   }
 };
  
+const deleteMovie = async (req, res) => {
+    try {
+    const idMovie = req.params.idMovie;
+    await movieModel.findByIdAndDelete(idMovie);
+    res
+      .status(200)
+      .send({ status: "Sucess", data: "La pelicula se elimino correctamente" });
+  } catch (error) {
+    res.status(500).send({ status: "Failed", error: error.message });
+  }
+};
+
+const updateMovieById = async (req, res) => {
+  try {
+    const idMovie = req.params.idMovie;
+    const updateMovie = req.body;
+ 
+    const movie = await movieModel.findByIdAndUpdate(idMovie, updateMovie, { new: true , runValidators: true });
+    if (!movie) {
+      return res.status(500).send("Pelicula no encontrada");
+    }
+    res.status(200).send({
+      status: "Success",
+      data: movie,
+    });
+  } catch (error) {
+    res.status(500).send({ status: "Failed", error: error.message });
+  }
+};
 
 module.exports = {
     addMovie,
     getMovieById,
-    getAllMovies
+    getAllMovies,
+    deleteMovie,
+    updateMovieById 
 }

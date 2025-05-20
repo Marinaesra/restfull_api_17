@@ -1,6 +1,22 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
- 
+
+const commentSchema = new Schema({
+  userId: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+    required: true
+  },
+  comment: {
+    type: String,
+    required: true
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+});
+  
 const movieSchema = new Schema({
   title: {
     type: String,
@@ -35,6 +51,12 @@ const movieSchema = new Schema({
     required: [true, "El año es obligatorio"],
   },
   createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+
+  comments: {commentSchema},
+    createdAt: {
     type: Date,
     default: Date.now,
   },

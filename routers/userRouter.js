@@ -9,7 +9,7 @@ deleteUser,
 replaceUser,
 updateUser,
 addFavouriteMovie,
-deleteMovie,
+deleteFavouriteMovie,
 deactiveUser
 } = require("../controllers/userController");
 const {verifyToken, verifyAdmin} = require("../middlewares/auth")
@@ -24,7 +24,7 @@ router.get("/searchName/:nombre", getUserByName);
 router.patch("/deactiveUser", verifyToken, deactiveUser)
 
 router.patch("/favourites/:idMovie",verifyToken, addFavouriteMovie);
-router.patch("/removefavourite/:idMovie",verifyToken, deleteMovie);
+router.patch("/removefavourite/:idMovie",verifyToken, deleteFavouriteMovie);
  
 module.exports = router;
  

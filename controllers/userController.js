@@ -57,14 +57,14 @@ const getUserByName = async (req, res) => {
   }
 };
 
-const getUserByAge = (req, res) => {
+/*const getUserByAge = (req, res) => {
   const age = req.params.age;
   const user = users.filter((u) => u.edad === parseInt(age));
   if (!user) {
     return res.status(200).send("No hay usuario con esa edad");
   }
   res.send(user);
-};
+};*/
 
 //user.findByIdAndDeleted (iduser)
 
@@ -145,7 +145,7 @@ const addFavouriteMovie = async (req, res) => {
   }
 };
 
-const deleteMovie = async (req, res) => {
+const deleteFavouriteMovie = async (req, res) => {
   try {
     const {idMovie} = req.params;
      const idUser = req.payload._id;
@@ -191,7 +191,7 @@ module.exports = {
   replaceUser,
   updateUser,
   addFavouriteMovie,
-  deleteMovie,
+  deleteFavouriteMovie,
   verifyToken,
   deactiveUser
 };
