@@ -90,10 +90,44 @@ const updateMovieById = async (req, res) => {
   }
 };
 
+const addComentMovie = async (req, res) => {
+  try {
+  const { idMovie } = req.params;
+  const comentMovie = req.body.comment;
+  const userId = req.payload._id;
+ 
+  const movie = await movieModel.findById(idMovie);
+
+  if (!movie) {
+      return res.status(200).send("Pelicula no existe");
+    }
+
+   const objectComent = {
+    userId:userId,
+    comment:comentMovie,
+   };
+  
+
+  movie.comments.push(objectComent);
+  movie.save();
+
+
+    res.status(200).send({
+      status: "Success",
+      data: movie,
+    });
+  } catch (error) {
+    res.status(500).send({ status: "Failed", error: error.message });
+  }
+
+
+}
+
 module.exports = {
     addMovie,
     getMovieById,
     getAllMovies,
     deleteMovie,
-    updateMovieById 
+    updateMovieById,
+    addComentMovie
 }

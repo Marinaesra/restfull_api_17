@@ -55,7 +55,7 @@ const movieSchema = new Schema({
     default: Date.now,
   },
 
-  comments: {commentSchema},
+  comments: [commentSchema],
     createdAt: {
     type: Date,
     default: Date.now,
