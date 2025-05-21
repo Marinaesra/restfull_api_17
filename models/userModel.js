@@ -39,12 +39,12 @@ const userSchema = new Schema({
 });
 
 
-userSchema.pre(/^find/, function(next) {
-  this.find({ isActive: true });
+/*userSchema.pre(/^find/, function(next) {
+this.find({ isActive: true });
   this.select('-password');
   next();
 });
- 
+ */
 const userModel = mongoose.model("User", userSchema, "user");
  
 module.exports = userModel;
