@@ -6,7 +6,8 @@ getMovieById,
 getAllMovies,
 deleteMovie,
 updateMovieById,
-addComentMovie
+addComentMovie,
+deleteComent
 } = require("../controllers/movieController");
 const { verifyToken } = require("../middlewares/auth");
 
@@ -16,5 +17,6 @@ router.get("/", getAllMovies)
 router.delete("/:idMovie", deleteMovie)
 router.patch("/:idMovie",updateMovieById)
 router.get("/:idMovie", verifyToken, addComentMovie)
+router.delete("/:idMovie", verifyToken, deleteComent)
 
 module.exports = router;

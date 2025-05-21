@@ -54,7 +54,14 @@ const getAllMovies = async (req, res) => {
     if (movies.length === 0) {
       return res.status(200).send("La peli no se encuentra");
     }
-    res.status(200).send({ status: "Success", data: movies, currentPage: parseInt(page),totalPages,});
+    res
+      .status(200)
+      .send({
+        status: "Success",
+        data: movies,
+        currentPage: parseInt(page),
+        totalPages,
+      });
   } catch (error) {
     res.status(500).send({ status: "Failed", error: error.message });
   }
@@ -77,11 +84,14 @@ const updateMovieById = async (req, res) => {
     const idMovie = req.params.idMovie;
     const updateMovie = req.body;
 
-    const movie = await movieModel.findByIdAndUpdate(idMovie, updateMovie, {new: true, runValidators: true,});
+    const movie = await movieModel.findByIdAndUpdate(idMovie, updateMovie, {
+      new: true,
+      runValidators: true,
+    });
     if (!movie) {
       return res.status(500).send("Pelicula no encontrada");
     }
-    res.status(200).send({ status: "Success", data: movie,});
+    res.status(200).send({ status: "Success", data: movie });
   } catch (error) {
     res.status(500).send({ status: "Failed", error: error.message });
   }
@@ -107,7 +117,24 @@ const addComentMovie = async (req, res) => {
     movie.comments.push(objectComent);
     movie.save();
 
-    res.status(200).send({status: "Success",data: movie,});
+    res.status(200).send({ status: "Success", data: movie });
+  } catch (error) {
+    res.status(500).send({ status: "Failed", error: error.message });
+  }
+};
+
+const deleteComent = async (req, res) => {
+  try {
+    const { idMovie, idComment } = req.params;
+    const movie = await movieModel.findById(idMovie);
+    if (!movie) {
+      return res.status(200).send("La pelicula no existe");
+    }
+
+    movie.comments = movie.comments.filter((comment) => comment._id.toString() !== idComment);
+    movie.save();
+
+    res.status(200).send({ status: "Success", data: movie });
   } catch (error) {
     res.status(500).send({ status: "Failed", error: error.message });
   }
@@ -120,4 +147,5 @@ module.exports = {
   deleteMovie,
   updateMovieById,
   addComentMovie,
+  deleteComent,
 };
