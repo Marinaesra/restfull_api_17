@@ -6,10 +6,11 @@ const { verifyToken } = require("../middlewares/auth");
 const getAllUser = async (req, res) => {
   try {
     const users = await userModel.find();
-    if (!users) {
-      return res.status(200).send("No hay usuario");
+    if (users.length === 0) {
+      return res.status(200).send({message:"No hay usuarios"});
     }
-    res.status(200).send(users);
+    res.status(200).send({ status: "Success", data: users });
+ 
   } catch (error) {
     res.status(500).send({ status: "Failed", error: error.message });
   }

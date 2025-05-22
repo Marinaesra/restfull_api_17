@@ -18,16 +18,18 @@ const app = express();
 //app.use (cors());
 app.use(express.json());
  
-connectToDatabase();
+//connectToDatabase();
 
 app.use('/api/user', userRouter)
 app.use('/api/movies', movieRouter)
 app.use("/api/auth", loginRouter)
 
  
-app.listen(PORT, () => {
+/*app.listen(PORT, () => {
     console.log(`Servidor corriendo en http://localhost:${PORT}`);
-});
+});*/
+
+module.exports = app;
  
 /*cron.schedule("35 18 1 * 7", async () => {
   console.log("Ejecutando tarea programada")
